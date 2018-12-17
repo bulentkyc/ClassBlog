@@ -1,0 +1,48 @@
+{{> header}}
+
+<link rel="stylesheet" href="/css/profile.css"> 
+
+<main>
+    <!-- input form -->
+    <div class="container">
+        <row>
+           <div class="containers h-100 row justify-content-center mr-1 ">
+                <img class="text-center" src="/uploads/{{contactDetails.0.avatar}}">
+            </div>
+            <form class="col-6 mx-auto" action="/editContact/{{contactDetails.0._id}}" method="POST" enctype="multipart/form-data">
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">...</div>
+                            </div>
+                            <input type="text" class="form-control" value='{{contactDetails.0.name}}'
+                            name="name" placeholder="Enter your contact's name">
+                        </div>
+
+                        <div class="input-group mb-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">@</div>
+                            </div>
+                            <input type="email" class="form-control" value='{{contactDetails.0.mail}}'
+                            name="email" placeholder="Enter your contact's e-mail">
+                        </div>
+
+                        <div class="input-group  mb-1">
+                            <label class="custom-file-label" for="avatar">Choose file</label>
+                            <input type="file" class="custom-file-input" id="avatar" name="avatar" multiple="multiple">
+                        </div>
+
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-primary btn-block">Edit</button>
+                        </div>
+                    </form>
+        </row>
+        <!-- unordered list (ul) -->
+        
+    </div>
+</main>
+
+
+<div id="footer" >
+{{> footer}}
+</div>
+</div>
