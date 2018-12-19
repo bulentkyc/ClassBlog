@@ -5,6 +5,25 @@ const bodyParser = require('body-parser');
 const router = require('./router/router');
 const expressValidator = require('express-validator');
 
+const flash = require('connect-flash');
+const session = require('express-session');
+
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
+
+app.use(flash());
+
+app.use(function(req, res, next){
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  //req.locals.user = req.user || null;
+  next();
+});
+
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
         var namespace = param.split('.')

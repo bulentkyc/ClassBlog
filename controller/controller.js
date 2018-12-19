@@ -171,9 +171,15 @@ exports.registration = (req, res) => {
                 console.log(user);
             }
         });
-        res.render('register',{
-            errors:[{msg:'Hi, ' + name + ' your account is ready!'}]
-        });
+
+        req.flash('success_msg', 'Hi, ' + name + ' your account is ready!');
+
+        res.redirect('register');
+        
+
+        /* res.render('register',{
+            errors:[{msg:'Hi, ' + name + ' your account is ready!'}]        
+        }); */
     }
 
 
