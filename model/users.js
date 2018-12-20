@@ -13,8 +13,8 @@ const userSchema = db.Schema({
     password: String
 });
 
-exports.user = db.model('user', userSchema);
-
+const user = db.model('user', userSchema);
+module.exports.user = user;
 exports.createUser = (newUser, callback) => {
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(newUser.password, salt, function(err, hash) {
@@ -22,4 +22,21 @@ exports.createUser = (newUser, callback) => {
             newUser.save(callback);
         });
     });
+}
+
+exports.getUserByEmail = function(email,callback){
+    console.log(email);
+    const query  = {email: email};
+    user.findOne(query, callback);
+}
+
+exports.comparePassword = function(candidatePassword, hash, callback){
+    bcrypt.compare(candidatePassword, hash, function(err, isMatch){
+        if (err) throw err;
+        callback(null, isMatch);
+    });
+}
+
+exports.getUserById = function(id, callback){
+	user.findById(id, callback);
 }

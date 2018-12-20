@@ -11,9 +11,14 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-            
+        <link rel="stylesheet" href="css/header.css"> 
         <link rel="stylesheet" href="css/footer.css"> 
-        
+    <script>
+    $(".nav a").on("click", function(){
+      $(".nav-link").find(".active").removeClass("active");
+      $(this).parent().addClass("active");
+    });
+    </script>
     </head>
     <body>
     
@@ -31,7 +36,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="/login">Login</a>
       </li>
       
       <li class="nav-item">

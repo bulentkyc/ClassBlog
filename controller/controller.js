@@ -3,7 +3,9 @@ const multer = require('multer');
 const path = require('path');
 const jimp = require('jimp');
 const contacts = require('../model/contacts');
-const user = require('../model/users');
+const User = require('../model/users');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 
 var fileName = '';
@@ -158,13 +160,13 @@ exports.registration = (req, res) => {
         });
     }else {
         console.log('No error!')
-        const newUser = new user.user({
+        const newUser = new User.user({
             name: name,
             email: email,
             password: password
         });
 
-        user.createUser(newUser, function(err, user){
+        User.createUser(newUser, function(err, user){
             if(err){
                 throw err
             }else{
@@ -185,3 +187,57 @@ exports.registration = (req, res) => {
 
     //res.send(name + '/' + email + '/' + password);
 }
+
+exports.loginPage = (req, res) => {
+    res.render('login');
+};
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password' 
+},
+    function(email, password, done) {
+        User.getUserByEmail(email, function(err, user){
+            if (err){
+                throw err;
+            }
+            if (!user){
+                return done(null, false, {message: 'User not registered'});
+            }
+
+            User.comparePassword(password, user.password, function(err, isMatch){
+                console.log(password, user, user.password, isMatch);
+                if (err) {
+                    throw err;
+                }
+                if (isMatch){
+                    return done(null, user);
+                }else {
+                    return done(null, false, {message: 'Invalid password'});
+                }
+            });
+        });
+    }
+  ));
+
+passport.serializeUser(function (user, done) {
+	done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+	User.getUserById(id, function (err, user) {
+		done(err, user);
+	});
+});
+
+exports.passportAuth = passport.authenticate(
+    'local',{
+    successRedirect: '/',
+    failureRedirect : '/login',
+    failureFlash: true
+});
+
+exports.login = (req, res) =>  {
+    res.redirect('/');
+};
+
